@@ -10,27 +10,266 @@
 #+select_tags: export
 #+exclude_tags: noexport
 #+creator: Emacs 28.0.50 (Org mode 9.3.6)
-#+latex_class: report
+#+latex_class: article
 #+latex_class_options:
 #+latex_header:
 #+latex_header_extra:
 #+description:
-#+keywords:
+#+keywords: Emacs, Lisp, Scraping, Theme, Adaptative
 #+subtitle: adaptative theme documentation
 #+latex_compiler: pdflatex
 
+\newpage
+
 * adaptative-theme
 
-* Installationn
+  This file contain package function explanation, all use cases, function
+  description and examples. For more information contact me.
+
+* Installation
+
+  Easy to install, clone this project into your/.emacs.d/ folder and include
+  next code at the end of your /init.el/ file.
+
+  #+begin_src lisp
+    (load-file "./adaptative-theme/adaptative-theme.el")
+  #+end_src
 
 * Requirements
 
+  To use *adaptative-theme-location* scraping require /[[https://github.com/alphapapa/org-web-tools][org-web-tools]]/ package,
+  installed in the function execution, this package require /Emacs 25.1/ or
+  later varsion. This functions has been tested with my /init.el/ configuration
+  and /Emacs 28.0.50/.
+
+  - Emacs 28.0.50
+  - org-web-tools package (intalled when use)
+
 * How to use
+
+  You can use different functions included in /adaptative-theme.el/ file, in this
+  section is explained how to use.
+
+** adaptative-theme
+
+   This is most simply function, only compare current hour with default or
+   customized hour and load selected theme. This is faster function.
+
+   Default time
+
+   #+begin_src lisp
+     (adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
+   #+end_src
+
+   Customized time, am time 08:01:03, pm time 20:02:04.
+
+   #+begin_src lisp
+     (adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard 08 20 01 02 03 04)
+   #+end_src
+
+** adaptative-theme-location
+
+   This function allow to get am and pm time from the city that you want,
+   thought to set your current city and country. Is slower than
+   /adaptative-theme/ because access to internet to get data time.
+
+   Please, search your city in https://www.timeanddate.com/sun to execute this
+   function successfuly. As before function, have two methods, becouse have
+   optional arguments.
+
+   Default location. Madrid, Spain.
+
+   #+begin_src lisp
+     (adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
+   #+end_src
+
+   Customized location, in munich city and germany as country.
+
+   #+begin_src lisp
+     (adaptative-theme-location 'gruvbox-light-soft
+     'gruvbox-dark-hard "germany" "munich")
+   #+end_src
+
+** adaptarive-theme-auto-loc
+
+** adaptative-theme-continuos
+
+** adaptative-theme-location-c
+
+** adaptarive-theme-auto-loc-c
 
 * Change log
 
+** 1.0
+
+
+
 * Development
 
-All contributions and suggersion are welcome, only thinking to improve.
+  All contributions and suggersion are welcome, only thinking to improve.
+
+** adaptative-theme
+
+   At first we found different arguments, two needed, /light-theme/ that is
+   loaded at day hours and /datk-theme/, that is loaded at night. The optional
+   arguments are /am/ hour and /pm/ hour, you can choose both hours.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;; Adaptative theme function
+     (defun adaptative-theme
+       (light-theme dark-theme &optional am-hour pm-hour am-min pm-min am-sec pm-sec)
+       " Adaptative theme function:
+     @Brief:   This function allow to configure different themes depending on the
+               emacs initialization time.
+
+     @Author:  acsm
+
+     @Version: A/0
+
+     @Args:    light-theme: Theme loaded in sun hours.
+               dark-theme:  Theme loaded in dark hours.
+               &-am-hour: Custom dawn hour (0-23) (optional, default 07)
+               &-pm-hour: Custom sunset hour (0-23) (optional, default 20)
+               &-am-min:  Custom dawn min (0-59) (optional, default 00)
+               &-pm-min:  Custom sunset min (0-59) (optional, default 00)
+               &-am-sec:  Custom dawn sec (0-59) (optional, default 00)
+               &-pm-sec:  Custom sunset sec (0-59) (optional, default 00)
+
+     @Links:
+     "
+   #+end_src
+
+   As have optional values is important to define default values if this
+   optional arguments are /nil/. I choose as default /7/ as dawn hour and /20/
+   as sunset hour.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Set default values
+       ;; Set dawn time
+
+       (unless (eval am-hour)
+         (set 'am-hour 7))
+       (unless (eval am-min)
+         (set 'am-min 00))
+       (unless (eval am-sec)
+         (set 'am-sec 00))
+
+       ;; Set sundown time
+       (unless (eval pm-hour)
+         (set 'pm-hour 20))
+       (unless (eval pm-min)
+         (set 'pm-min 00))
+       (unless (eval pm-sec)
+         (set 'pm-sec 00))
+   #+end_src
+
+   First of all, we need to get the initialization time to compare with the
+   limits, we can get it with the descomposition of the current date in
+   substrings, later we need to transform those substrings to integer to compare
+   with inpus or default arguments.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Get time
+       (set 'init-time (current-time-string))
+
+     ;;;; Ger integer hour
+       ;; Get hour
+       (set 'init-hour-str (substring init-time 11 13))
+       (set 'init-hour-int (string-to-number init-hour-str 10))
+       ;; Get minute
+       (set 'init-min-str (substring init-time 14 16))
+       (set 'init-min-int (string-to-number init-min-str 10))
+       ;; Get Second
+       (set 'init-sec-str (substring init-time 17 19))
+       (set 'init-sec-int (string-to-number init-sec-str 10))
+   #+end_src
+
+   Start thinking that is day, first, if current hour is lower than am hour,
+   sure, is night, else if same hour compare minutes. As with hours if is the
+   same hour and current minute is less than am minutes is night. Same with the seconds
+
+   #+begin_src
+             ,-----------------------------------------------,
+             | Hour ,------------------------------,         |
+   Night     |      | Minute      <-+->            |         |            Day
+   ----------+------+---------------+--------------+---------+--------------
+             |      |                Second        |         |
+             |      '------------------------------'         |
+             '-----------------------------------------------'
+   #+end_src
+
+   With the pm hour is the same but in the opposite.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Detect if is day
+       (set 'is-day t)
+     ;;;;; Compare with am
+     ;;;;;; Hour
+       (if (< init-hour-int am-hour)
+           ;; true if init hour <  dawn hour is night
+           (set 'is-day nil)
+         ;; Evaluate minutes if is the same hour
+         (if (= init-hour-int am-hour)
+             ;; evaluate minutes
+             (if (< init-min-int am-min)
+                 ;; true if init min <  dawn min is night
+                 (set 'is-day nil)
+               ;; Evaluate seconds if is the same minute
+               (if (= init-sec-int am-sec)
+                   ;; evaluate seconds
+                   (if (< init-sec-int am-sec)
+                       ;; true if init sec <  dawn sec is night
+                       (set 'is-day nil)))
+               )
+           )
+         )
+
+     ;;;;; Compare with pm
+     ;;;;;; Hour
+       (if (> init-hour-int pm-hour)
+           ;; true if init hour >  sunset hour is night
+           (set 'is-day nil)
+         ;; Evaluate minutes if is the same hour
+         (if (= init-hour-int pm-hour)
+             ;; evaluate minutes
+             (if (> init-min-int pm-min)
+                 ;; true if init min >  sunset min is night
+                 (set 'is-day nil)
+               ;; Evaluate seconds if is the same minute
+               (if (= init-sec-int pm-sec)
+                   ;; evaluate seconds
+                   (if (> init-sec-int pm-sec)
+                       ;; true if init sec >  sunset sec is night
+                       (set 'is-day nil)))
+               )
+           )
+         )
+   #+end_src
+
+   At the end load selected theme.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Load theme
+       (if is-day
+           ;; Load ligth theme if is day
+           (load-theme light-theme t)
+         ;;(load-theme 'gruvbox-light-soft t)
+         ;; Load dark theme if is not day
+         (load-theme dark-theme t))
+       ;;(load-theme 'gruvbox-dark-hard t))
+       )
+   #+end_src
+
+** adaptative-theme-location
+
+** adaptarive-theme-auto-loc
+
+** adaptative-theme-continuos
+
+** adaptative-theme-location-c
+
+** adaptarive-theme-auto-loc-c
 
 * Liscence
+
+  GPLv3
