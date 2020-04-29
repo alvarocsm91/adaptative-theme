@@ -23,8 +23,8 @@
 
 * adaptative-theme
 
-  This file contain package function explanation, all use cases, function
-  description and examples. For more information contact me.
+  This file contain package function explanation, all use cases and description
+  with examples. For more information contact me.
 
 * Installation
 
@@ -38,9 +38,9 @@
 * Requirements
 
   To use *adaptative-theme-location* scraping require /[[https://github.com/alphapapa/org-web-tools][org-web-tools]]/ package,
-  installed in the function execution, this package require /Emacs 25.1/ or
-  later varsion. This functions has been tested with my /init.el/ configuration
-  and /Emacs 28.0.50/.
+  installed when use the function thet require it. This package require /Emacs
+  25.1/ or later varsion. This functions has been tested with my /init.el/
+  configuration and /Emacs 28.0.50/.
 
   - Emacs 28.0.50
   - org-web-tools package (intalled when use)
@@ -71,7 +71,7 @@
 
    This function allow to get am and pm time from the city that you want,
    thought to set your current city and country. Is slower than
-   /adaptative-theme/ because access to internet to get data time.
+   /adaptative-theme/ because require to access to internet to get data time.
 
    Please, search your city in https://www.timeanddate.com/sun to execute this
    function successfuly. As before function, have two methods, becouse have
@@ -139,7 +139,7 @@
      "
    #+end_src
 
-   As have optional values is important to define default values if this
+   As it have optional values is important to define default values if this
    optional arguments are /nil/. I choose as default /7/ as dawn hour and /20/
    as sunset hour.
 
