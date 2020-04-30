@@ -102,8 +102,6 @@
 
 ** 1.0
 
-
-
 * Development
 
   All contributions and suggersion are welcome, only thinking to improve.
@@ -261,6 +259,125 @@
    #+end_src
 
 ** adaptative-theme-location
+
+   This function have two arguments, light-theme and dark-themen, as optional
+   arguments it have two, country and city to setect in which city you are and
+   in function of this search am hour and pm hour to detect dawn and sunset
+   time.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;; Adaptative theme location
+     (defun adaptative-theme-location (ligth-theme dark-theme &optional country city)
+       "
+     Info
+     "
+   #+end_src
+
+    IF dont fill this arguments, you are going to have the *Madrid*, *Spain*
+    hour. To make the scrapping this function require /org-web-tools/, this
+    package is installed when use it.
+
+    The web site where take the hours information is
+    https://www.timeanddate.com/sun, is recomended to search your city in the
+    web to avoid errors.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Load basic requieres
+     (require 'org-web-tools)
+
+     ;;;; Web scraping
+     ;; URL base to get am and pm data
+     (setq url "https://www.timeanddate.com/sun")
+     ;; Set default county
+     (unless (eval country)
+       (setq country "spain"))
+
+     ;; Set default city
+     (unless (eval city)
+       (setq city "madrid"))
+   #+end_src
+
+   First is create the url to search the information, after that, is importart
+   to download the web first to create the regular expression, i recomend to get
+   the html and later create the regex in a web page, at the last, make it with
+   emacs special syntaxis.
+
+   Later get in which point os the html stris is the match, and get a subtring
+   filtering all the web.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;; Compose url
+     (setq web_to_scrap (concat url "/" country "/" city))
+     (setq webDataHtml (org-web-tools--get-url web_to_scrap))
+     ;; web string to search
+     ;; <div class=\"h1 dn-mob\">Daylight</div><p class=dn-mob>7:18 &#8211; 21:06<br>13 hours, 48 minutes</p></div>
+     ;; first regex model
+     ;;>Daylight<\/div><p class=dn-mob>[0-9]{1,2}:[0-9]{1,2} &#8211; [0-9]{1,2}:[0-9]{1,2}<br>[0-9]{1,2} hours, [0-9]{1,2} minutes<\/p><\/div>
+     ;; second regex model
+     ;;\WDaylight\W{1,}div\W{1,}p\sclass\Wdn\Wmob\W[0-9]{1,2}\W[0-9]{1,2} \W{1,}[0-9]{1,}\W [0-9]{1,2}\W[0-9]{1,2}\Wbr\W[0-9]{1,2}\shours\W\s[0-9]{1,2}\sminutes\W{1,}p\W{1,}div\W
+     ;; Helm regex model
+     ;;\\s_Daylight\\s_\\{2\\}div\\s_\\{2\\}p\\s-class\\s_dn\\s_mob\\s_[0-9]\\{1,2\\}:[0-9]\\{1,2\\}\\s-\\s_\\{1,\\}
+     ;;;; Web regex model
+     (setq webRegexModel "\\s_Daylight\\s_\\{2\\}div\\s_\\{2\\}p\\s-class\\s_dn\\s_mob\\s_[0-9]\\{1,2\\}:[0-9]\\{1,2\\}\\s-\\s_\\{1,\\}")
+
+     ;;;; Extract regex value
+     (setq daylight-regex
+           (string-match webRegexModel webDataHtml))
+
+     ;;;; Extract substring
+     (setq subWebStr
+           (substring webDataHtml daylight-regex (+ daylight-regex 100)))
+   #+end_src
+
+   Later regenerate the regex to extract am hour and pm hour from the html
+   substring.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Create regex group time
+     (setq timeGroupRegex "[0-9]\\{1,2\\}:[0-9]\\{1,2\\}")
+
+     ;;;; Extract time value as string
+     (setq timeStr (string-match timeGroupRegex subWebStr))
+
+     ;;;; Extract AM hour
+     (setq amTime (substring subWebStr timeStr (+ timeStr 5)))
+
+     ;;;; Get substring pm time
+     (setq timeStr (string-match timeGroupRegex subWebStr (+ timeStr 6)))
+
+     ;;;; Extract PM time
+     (setq pmTime (substring subWebStr timeStr (+ timeStr 5)))
+
+     ;;;; Regenerate time regext to get hour and minutes
+     (setq timeGroupRegex ":")
+
+     ;;;; Get AM Hour
+     (setq amSeparator (string-match timeGroupRegex amTime))
+     (setq amHourStr (substring amTime 0 amSeparator))
+     (setq amHourInt (string-to-number amHourStr))
+
+     ;;;; Get AM Min
+     (setq amSeparator (string-match timeGroupRegex amTime))
+     (setq amMinStr (substring amTime (+ amSeparator 1) (+ amSeparator 3)))
+     (setq amMinInt (string-to-number amMinStr))
+
+     ;;;; Get PM Hour
+     (setq pmSeparator (string-match timeGroupRegex pmTime))
+     (setq pmHourStr (substring pmTime 0 pmSeparator))
+     (setq pmHourInt (string-to-number pmHourStr))
+
+     ;;;; Get PM Min
+     (setq pmSeparator (string-match timeGroupRegex pmTime))
+     (setq pmMinStr (substring pmTime (+ pmSeparator 1) (+ pmSeparator 3)))
+     (setq pmMinInt (string-to-number pmMinStr))
+   #+end_src
+
+   Execute adaptative theme function with the hour got from web.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Execute adaptative theme function
+     (adaptative-theme ligth-theme dark-theme amHourInt pmHourInt amMinInt pmMinInt))
+   #+end_src
 
 ** adaptarive-theme-auto-loc
 
