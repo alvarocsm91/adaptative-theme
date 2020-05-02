@@ -170,7 +170,7 @@
      ;;;; Get time
        (set 'init-time (current-time-string))
 
-     ;;;; Ger integer hour
+     ;;;; Get integer hour
        ;; Get hour
        (set 'init-hour-str (substring init-time 11 13))
        (set 'init-hour-int (string-to-number init-hour-str 10))
