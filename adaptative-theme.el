@@ -105,7 +105,29 @@
     ;; Load dark theme if is not day
     (load-theme dark-theme t))
   ;;(load-theme 'gruvbox-dark-hard t))
-  )
+
+;;;; Program nex theme change
+  ;; Timer example
+  ;;(run-at-time "5 sec" nil #'message "Prueba timer")
+  ;;(run-at-time "20:30" nil #'kill-emacs)
+  ;;(run-at-time "5 sec" nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
+
+  ;; AM or dawn time
+  (setq dawn-hour-str (number-to-string am-hour))
+  (setq dawn-min-str (number-to-string am-min))
+  (setq dawn-time (concat dawn-hour-str ":" dawn-min-str))
+  (print dawn-time)
+  ;;;;; Set timer dawn
+  (run-at-time dawn-time nil #'load-theme light-theme)
+
+  ;; PM or sunset time
+  (setq sunset-hour-str (number-to-string pm-hour))
+  (setq sunset-min-str (number-to-string pm-min))
+  (setq sunset-time (concat sunset-hour-str ":" sunset-min-str))
+  (print sunset-time)
+  ;;;;; Set timer sunset
+  (run-at-time sunset-time nil #'load-theme dark-theme)
+)
 
 ;;; Adaptative theme location
 (defun adaptative-theme-location (ligth-theme dark-theme &optional country city)
