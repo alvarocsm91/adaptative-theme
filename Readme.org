@@ -94,7 +94,7 @@
 
 * Change log
 
-** 1.0
+** Ver/Rev: A/0
 
    First version include operative /adaptative-theme/ without errors and
    /adaptative-theme-location/ in debug stage.
