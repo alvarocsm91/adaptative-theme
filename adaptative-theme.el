@@ -109,8 +109,20 @@
 
 ;;; Adaptative theme location
 (defun adaptative-theme-location (ligth-theme dark-theme &optional country city)
-  "
-Info
+  "  Adaptative theme location function:
+@Brief:   This function allow to configure different themes depending on your
+          location when work emacs.
+
+@Author:  acsm
+
+@Version: A/0
+
+@Args:    light-theme: Theme loaded in sun hours.
+          dark-theme:  Theme loaded in dark hours.
+          &country:    Custom Country location (str) (optional, default spain)
+          &city:       Custom City or capital location (str) (optional, default madrid)
+
+@Links:   https://www.timeanddate.com/sun where look for your country and city names.
 "
 
 ;;;; Load basic requieres
