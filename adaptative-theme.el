@@ -23,7 +23,6 @@
 
 ;;;; Set default values
   ;; Set dawn time
-
   (unless (eval am-hour)
     (set 'am-hour 7))
   (unless (eval am-min)
@@ -55,6 +54,9 @@
 
 ;;;; Detect if is day
   (set 'is-day t)
+  (set 'is-morning nil)
+  (set 'is-afternoon nil)
+
 ;;;;; Compare with am
 ;;;;;; Hour
   (if (< init-hour-int am-hour)
@@ -71,31 +73,45 @@
               ;; evaluate seconds
               (if (< init-sec-int am-sec)
                   ;; true if init sec <  dawn sec is night
-                  (set 'is-day nil)))
+                  (set 'is-day nil)
+                  )))
           )
       )
-    )
+
+
+  (if (null (eval is-day))
+      (setq is-morning t))
 
 ;;;;; Compare with pm
 ;;;;;; Hour
   (if (> init-hour-int pm-hour)
       ;; true if init hour >  sunset hour is night
-      (set 'is-day nil)
+      (lambda ()
+        (set 'is-day nil)
+        (set 'is-afernoon t))
     ;; Evaluate minutes if is the same hour
     (if (= init-hour-int pm-hour)
         ;; evaluate minutes
         (if (> init-min-int pm-min)
             ;; true if init min >  sunset min is night
-            (set 'is-day nil)
+            (lambda ()
+              (set 'is-day nil)
+              (set 'is-afernoon t))
           ;; Evaluate seconds if is the same minute
           (if (= init-sec-int pm-sec)
               ;; evaluate seconds
               (if (> init-sec-int pm-sec)
                   ;; true if init sec >  sunset sec is night
-                  (set 'is-day nil)))
+                  (lambda ()
+                    (set 'is-day nil)
+                    (set 'is-afernoon t))))
           )
       )
     )
+ ;; If isnt day now and is not morning is afternoon
+ (if (null (eval is-day))
+     (if (null (eval is-morning))
+         (setq is-afternoon t)))
 
 ;;;; Load theme
   (if is-day
@@ -112,21 +128,42 @@
   ;;(run-at-time "20:30" nil #'kill-emacs)
   ;;(run-at-time "5 sec" nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
 
-  ;; AM or dawn time
-  (setq dawn-hour-str (number-to-string am-hour))
-  (setq dawn-min-str (number-to-string am-min))
-  (setq dawn-time (concat dawn-hour-str ":" dawn-min-str))
-  (print dawn-time)
-  ;;;;; Set timer dawn
-  (run-at-time dawn-time nil #'load-theme light-theme)
+  ;; If is day, reevaluate this function 10 seconds after sunset hour.
+  (if (eval 'is-day)
+      (lambda ()
+        (setq prog-sec-time (+ (* 3600 (- pm-hour init-hour-int))
+                               (* 60 (- pm-min init-min-int))
+                               (- pm-sec init-sec-int)
+                               10))
+        (setq prog-sec-time-str (concat (number-to-string prog-sec-time) " sec"))
+        (run-at-time prog-sec-time-str nil #'adaptative-theme light-theme dark-theme)
+        ))
 
-  ;; PM or sunset time
-  (setq sunset-hour-str (number-to-string pm-hour))
-  (setq sunset-min-str (number-to-string pm-min))
-  (setq sunset-time (concat sunset-hour-str ":" sunset-min-str))
-  (print sunset-time)
-  ;;;;; Set timer sunset
-  (run-at-time sunset-time nil #'load-theme dark-theme)
+  ;; If is morning, reevaluate this function at dawn hour
+  (if (eval 'is-morning)
+      (lambda ()
+        (setq prog-sec-time (+ (* 3600 (- am-hour init-hour-int))
+                               (* 60 (- am-min init-min-int))
+                               (- am-sec init-sec-int)
+                               10))
+        (setq prog-sec-time-str (concat (number-to-string prog-sec-time) " sec"))
+        (run-at-time prog-sec-time-str nil #'adaptative-theme light-theme dark-theme)
+        ))
+
+  ;; If is afternoon, reevaluate this function at dawn hour. plus rest to midnight
+  (if (eval 'is-afternoon)
+      (lambda ()
+        (setq prog-sec-time
+              (+ (* 3600 am-hour)
+                 (* 60 am-min)
+                 am-sec
+                 10
+                 (* 3600 (- 23 init-hour-int))
+                 (* 60 (- 59 init-min-int))
+                 (- 59 init-sec-int)))
+        (setq prog-sec-time-str (concat (number-to-string prog-sec-time) " sec"))
+        (run-at-time prog-sec-time-str nil #'adaptative-theme light-theme dark-theme)
+        ))
 )
 
 ;;; Adaptative theme location
