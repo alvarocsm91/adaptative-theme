@@ -229,25 +229,19 @@
      ;;;;;; Hour
        (if (> init-hour-int pm-hour)
            ;; true if init hour >  sunset hour is night
-           (lambda ()
-             (set 'is-day nil)
-             (set 'is-afernoon t))
+           (set 'is-day nil)
          ;; Evaluate minutes if is the same hour
          (if (= init-hour-int pm-hour)
              ;; evaluate minutes
              (if (> init-min-int pm-min)
                  ;; true if init min >  sunset min is night
-                 (lambda ()
-                   (set 'is-day nil)
-                   (set 'is-afernoon t))
+                 (set 'is-day nil)
                ;; Evaluate seconds if is the same minute
                (if (= init-sec-int pm-sec)
                    ;; evaluate seconds
                    (if (> init-sec-int pm-sec)
                        ;; true if init sec >  sunset sec is night
-                       (lambda ()
-                         (set 'is-day nil)
-                         (set 'is-afernoon t))))
+                       (set 'is-day nil)))
                )
            )
          )
@@ -314,7 +308,6 @@
              ))
      )
    #+end_src
-
 
 ** adaptative-theme-location
 

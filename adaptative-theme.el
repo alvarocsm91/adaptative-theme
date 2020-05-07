@@ -78,7 +78,7 @@
           )
       )
 
-
+  ;; If isnt day is morning
   (if (null (eval is-day))
       (setq is-morning t))
 
@@ -86,28 +86,23 @@
 ;;;;;; Hour
   (if (> init-hour-int pm-hour)
       ;; true if init hour >  sunset hour is night
-      (lambda ()
-        (set 'is-day nil)
-        (set 'is-afernoon t))
+      (set 'is-day nil)
     ;; Evaluate minutes if is the same hour
     (if (= init-hour-int pm-hour)
         ;; evaluate minutes
         (if (> init-min-int pm-min)
             ;; true if init min >  sunset min is night
-            (lambda ()
-              (set 'is-day nil)
-              (set 'is-afernoon t))
+            (set 'is-day nil)
           ;; Evaluate seconds if is the same minute
           (if (= init-sec-int pm-sec)
               ;; evaluate seconds
               (if (> init-sec-int pm-sec)
                   ;; true if init sec >  sunset sec is night
-                  (lambda ()
-                    (set 'is-day nil)
-                    (set 'is-afernoon t))))
+                  (set 'is-day nil)))
           )
       )
     )
+
  ;; If isnt day now and is not morning is afternoon
  (if (null (eval is-day))
      (if (null (eval is-morning))
