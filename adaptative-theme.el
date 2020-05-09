@@ -288,3 +288,73 @@
 
 ;;;; Execute adaptative theme function
 (adaptative-theme ligth-theme dark-theme amHourInt pmHourInt amMinInt pmMinInt))
+
+;;; Auto location adaptative theme
+(defun adaptative-theme-autolocation (light-theme dark-theme)
+  "  Adaptative theme auto-location function:
+     @Brief:   This function allow to configure different themes depending on your
+               location when work emacs, it get your location from internet.
+
+     @Author:  acsm
+
+     @Version: A/0
+
+     @Args:    light-theme: Theme loaded in sun hours.
+               dark-theme:  Theme loaded in dark hours.
+
+     @Links:   https://www.timeanddate.com where look for your country and city names.
+     "
+
+;;;; Load basic requieres
+  (require 'org-web-tools)
+
+     ;;;; Web scraping
+  ;; URL base to get am and pm data
+  (setq url-location "https://www.timeanddate.com")
+
+  ;; Get main web where display your location
+  (setq webDataHtml (org-web-tools--get-url url-location))
+  ;; web string to search
+  ;;title=\"The World Clock / Time Zones\">Current Time</a></h2><a href=\"/worldclock/spain/madrid\" id=clk_box
+  ;; Fist regex model
+  ;;title=\W{2}The World Clock \W Time Zones\W{2}>Current Time<\Wa><\Wh2><a href=\W{3}worldclock\Wspain\Wmadrid\W{2} id=clk_box
+  ;; Helm regex with regex-builder
+  ;;"the world clock"
+
+;;;; Extract regex value
+  (setq location-regex
+        (string-match "The World Clock" webDataHtml))
+     ;;;; Extract substring
+  (setq subLocStr
+        (substring webDataHtml location-regex (+ location-regex 120)))
+
+;;;; Extract regex value
+  (setq init-regex
+        (string-match "worldclock/" subLocStr))
+
+  (setq end-regex
+        (string-match "id=" subLocStr))
+
+  ;;;; Extract substring
+  (setq subLocStr
+        (substring subLocStr (+ init-regex 11) (+ end-regex 3)))
+
+  ;;;; Extract country
+  (setq end-regex
+        (string-match "/" subLocStr))
+  (setq myCountryLoc
+        (substring subLocStr 0 end-regex))
+
+  ;;;; Extract city
+  (setq init-regex
+        (string-match "/" subLocStr))
+
+  (setq end-regex
+        (string-match "id=" subLocStr))
+
+  (setq myCityLoc
+        (substring subLocStr (+ init-regex 1) (- end-regex 2)))
+
+;; Execute location function with data extracted.
+(adaptative-theme-location light-theme dark-theme myCountryLoc myCityLoc)
+)
