@@ -38,6 +38,15 @@
   (unless (eval pm-sec)
     (set 'pm-sec 00))
 
+  ;; Set dawn time aux
+  (setq am-hour-init am-hour)
+  (setq am-min-init am-min)
+  (setq am-sec-init am-sec)
+  ;; Set sundown time
+  (setq pm-hour-init pm-hour)
+  (setq pm-min-init pm-min)
+  (setq pm-sec-init pm-sec)
+
 ;;;; Get time
   (set 'init-time (current-time-string))
 
@@ -54,8 +63,6 @@
 
 ;;;; Detect if is day
   (set 'is-day t)
-  (set 'is-morning nil)
-  (set 'is-afternoon nil)
 
 ;;;;; Compare with am
 ;;;;;; Hour
@@ -78,10 +85,6 @@
           )
       )
 
-  ;; If isnt day is morning
-  (if (null (eval is-day))
-      (setq is-morning t))
-
 ;;;;; Compare with pm
 ;;;;;; Hour
   (if (> init-hour-int pm-hour)
@@ -103,11 +106,6 @@
       )
     )
 
- ;; If isnt day now and is not morning is afternoon
- (if (null (eval is-day))
-     (if (null (eval is-morning))
-         (setq is-afternoon t)))
-
 ;;;; Load theme
   (if is-day
       ;; Load ligth theme if is day
@@ -123,42 +121,77 @@
   ;;(run-at-time "20:30" nil #'kill-emacs)
   ;;(run-at-time "5 sec" nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
 
-  ;; If is day, reevaluate this function 10 seconds after sunset hour.
-  (if (eval 'is-day)
-      (lambda ()
-        (setq prog-sec-time (+ (* 3600 (- pm-hour init-hour-int))
-                               (* 60 (- pm-min init-min-int))
-                               (- pm-sec init-sec-int)
-                               10))
-        (setq prog-sec-time-str (concat (number-to-string prog-sec-time) " sec"))
-        (run-at-time prog-sec-time-str nil #'adaptative-theme light-theme dark-theme)
-        ))
+  ;;;;; Calculate time before change day - night
+  (if (eval is-day)
+      (if (> pm-min 58)
+          (lambda ()
+            (if (equal pm-hour 23)
+              (setq pm-hour 0)
+              (setq pm-hour (+ pm-hour 1))
+              )
+            (setq pm-hour (+ pm-hour 1))
+            (setq pm-min 0))
+        (setq pm-min (+ pm-min 1))
+        )
+    ;; If is not day
+    (if (equal am-min 59)
+        (lambda ()
+          (if (equal am-hour 23)
+            (setq am-hour 0)
+            (setq am-hour (+ am-hour 1))
+            )
+          (setq am-min 0))
+      (setq am-min (+ am-min 1))
+      )
+    )
 
-  ;; If is morning, reevaluate this function at dawn hour
-  (if (eval 'is-morning)
-      (lambda ()
-        (setq prog-sec-time (+ (* 3600 (- am-hour init-hour-int))
-                               (* 60 (- am-min init-min-int))
-                               (- am-sec init-sec-int)
-                               10))
-        (setq prog-sec-time-str (concat (number-to-string prog-sec-time) " sec"))
-        (run-at-time prog-sec-time-str nil #'adaptative-theme light-theme dark-theme)
-        ))
+  ;; Calculate next hour as str
+  (if (< pm-hour 10)
+      (setq pm-hour-str (concat "0" (number-to-string pm-hour)))
+    (setq pm-hour-str (number-to-string pm-hour))
+    )
 
-  ;; If is afternoon, reevaluate this function at dawn hour. plus rest to midnight
-  (if (eval 'is-afternoon)
-      (lambda ()
-        (setq prog-sec-time
-              (+ (* 3600 am-hour)
-                 (* 60 am-min)
-                 am-sec
-                 10
-                 (* 3600 (- 23 init-hour-int))
-                 (* 60 (- 59 init-min-int))
-                 (- 59 init-sec-int)))
-        (setq prog-sec-time-str (concat (number-to-string prog-sec-time) " sec"))
-        (run-at-time prog-sec-time-str nil #'adaptative-theme light-theme dark-theme)
-        ))
+  ;; Calculate next min asl str
+  (if (< pm-min 10)
+      (setq pm-min-str (concat "0" (number-to-string pm-min)))
+    (setq pm-min-str (number-to-string pm-min))
+    )
+
+  ;; Define pm hour
+  (setq pm-str (concat pm-hour-str ":" pm-min-str))
+
+  ;; Calculate next hour as str
+  (if (< am-hour 10)
+      (setq am-hour-str (concat "0" (number-to-string am-hour)))
+    (setq am-hour-str (number-to-string am-hour))
+    )
+
+  ;; Calculate next min asl str
+  (if (< am-min 10)
+      (setq am-min-str (concat "0" (number-to-string am-min)))
+    (setq am-min-str (number-to-string am-min))
+    )
+
+  ;; Define am hour
+  (setq am-str (concat am-hour-str ":" am-min-str))
+
+;;;;; Program
+ ;; Cancel timer if exist
+ (if (eval is-day)
+     (if (boundp 'am-timer)
+         (cancel-timer am-timer)
+       )
+   (if (boundp 'pm-timer)
+       (cancel-timer pm-timer)
+     )
+   )
+
+ ;; Reset timer
+ (if (eval is-day)
+     (setq pm-timer (run-at-time pm-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init)))
+   ;;  (if (null is-day)
+   (setq am-timer (run-at-time am-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init)))
+   )
 )
 
 ;;; Adaptative theme location
