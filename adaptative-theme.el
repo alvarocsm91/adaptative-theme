@@ -62,7 +62,9 @@
   (set 'init-sec-int (string-to-number init-sec-str 10))
 
 ;;;; Detect if is day
-  (set 'is-day t)
+  (setq is-day t)
+  (setq is-morning nil)
+  (setq is-night nil)
 
 ;;;;; Compare with am
 ;;;;;; Hour
@@ -85,6 +87,10 @@
           )
       )
 
+  ;; Is is before day is morning
+  (if (null is-day)
+      (setq is-morning t))
+
 ;;;;; Compare with pm
 ;;;;;; Hour
   (if (> init-hour-int pm-hour)
@@ -105,6 +111,11 @@
           )
       )
     )
+
+  ;; If is not day and no morning is night
+  (if (null is-day)
+      (if (null is-morning)
+          (setq is-night t)))
 
 ;;;; Load theme
   (if is-day
@@ -175,24 +186,37 @@
   ;; Define am hour
   (setq am-str (concat am-hour-str ":" am-min-str))
 
-;;;;; Program
- ;; Cancel timer if exist
- (if (eval is-day)
-     (if (boundp 'am-timer)
-         (cancel-timer am-timer)
-       )
-   (if (boundp 'pm-timer)
-       (cancel-timer pm-timer)
-     )
-   )
+  ;; If is night use timer in seconds
+  (if (eval is-night)
+      (lambda ()
+        (setq am-str-int (+ (* (- 23 init-hour-int) 3600)
+                            (* (- 59 init-min-int) 60)
+                            (- 59 init-sec-int)))
+        (setq am-str (concat (number-to-string am-str-int) " sec")))
+    )
 
- ;; Reset timer
- (if (eval is-day)
-     (setq pm-timer (run-at-time pm-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init)))
-   ;;  (if (null is-day)
-   (setq am-timer (run-at-time am-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init)))
-   )
-)
+;;;;; Program
+;; Cancel timer if exist
+(if (eval is-day)
+    (if (boundp 'am-timer)
+        (cancel-timer am-timer)
+      )
+  (if (boundp 'pm-timer)
+      (cancel-timer pm-timer)
+    )
+  )
+
+;; Reset timer
+(if (eval is-day)
+    (setq pm-timer (run-at-time pm-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
+
+(if (eval is-morning)
+    (setq am-timer (run-at-time am-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
+
+;;(if (eval is-night)
+;;    (setq am-timer (run-at-time am-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
+
+    )
 
 ;;; Adaptative theme location
 (defun adaptative-theme-location (ligth-theme dark-theme &optional country city)
