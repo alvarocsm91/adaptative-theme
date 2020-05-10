@@ -92,7 +92,6 @@
 
 ** adaptative-theme-autolocation
 
-
    This function allow to get am and pm time from the city that you are. Is
    slower than /adaptative-theme/ /adaptative-theme-location/ because require to
    access to internet to get data time and location.
@@ -101,12 +100,17 @@
      (adaptative-theme-autolocation 'gruvbox-light-soft 'gruvbox-dark-hard)
    #+end_src
 
-* Change log
+* Change log. Ver/Rev.
 
-** Ver/Rev: A/0
+** A/0
 
    First version include operative /adaptative-theme/ without errors and
    /adaptative-theme-location/ in debug stage.
+
+** A/1
+
+   Stable version /adaptative-theme/, /adaptative-theme-location/ and
+   /adaptative-theme-autolocation/.
 
 * Development
 
@@ -128,7 +132,7 @@
 
      @Author:  acsm
 
-     @Version: A/0
+     @Version: A/1
 
      @Args:    light-theme: Theme loaded in sun hours.
                dark-theme:  Theme loaded in dark hours.
@@ -409,7 +413,7 @@
 
      @Author:  acsm
 
-     @Version: A/0
+     @Version: A/1
 
      @Args:    light-theme: Theme loaded in sun hours.
                dark-theme:  Theme loaded in dark hours.
@@ -540,7 +544,7 @@
 
           @Author:  acsm
 
-          @Version: A/0
+          @Version: A/1
 
           @Args:    light-theme: Theme loaded in sun hours.
                     dark-theme:  Theme loaded in dark hours.
