@@ -23,8 +23,8 @@
 
 * adaptative-theme
 
-  This file contain package function explanation, all use cases and description
-  with examples. For more information contact me.
+  This file contains package function explanation, all use cases and description
+  with examples. For more information, please contact me.
 
 * Installation
 
@@ -424,6 +424,25 @@
      "
    #+end_src
 
+   First of all, we should check if we can access to internet to download
+   packages and access web to scrap the information.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Detect internet connection
+       ;; Change "www.google.es" with your proxy server if you need it. "my_proxy.es"
+       (if (null (boundp 'host))
+           (setq internet-external-host "www.google.com"))
+       (setq is-internet-up (call-process "ping" nil nil nil "-c" "1" "-w" "1" internet-external-host))
+
+       (if (/= is-internet-up 0)
+           ;; If internet is not connected
+           (lambda ()
+             (adaptative-theme(dark-theme light-theme))
+             (progn (message "No network detected") nil)
+             (return))
+         )
+   #+end_src
+
     IF dont fill this arguments, you are going to have the *Madrid*, *Spain*
     hour. To make the scrapping this function require /org-web-tools/, this
     package is installed when use it.
@@ -551,6 +570,25 @@
 
           @Links:   https://www.timeanddate.com where look for your country and city names.
           "
+   #+end_src
+
+   First of all, we should check if we can access to internet to download
+   packages and access web to scrap the information.
+
+   #+begin_src lisp :tangle adaptative-theme.el
+     ;;;; Detect internet connection
+       ;; Change "www.google.es" with your proxy server if you need it. "my_proxy.es"
+       (if (null (boundp 'host))
+           (setq internet-external-host "www.google.com"))
+       (setq is-internet-up (call-process "ping" nil nil nil "-c" "1" "-w" "1" internet-external-host))
+
+       (if (/= is-internet-up 0)
+           ;; If internet is not connected
+           (lambda ()
+             (adaptative-theme(dark-theme light-theme))
+             (progn (message "No network detected") nil)
+             (return))
+         )
    #+end_src
 
    Require /org-web-tools/ and get main web where we can saw our country and

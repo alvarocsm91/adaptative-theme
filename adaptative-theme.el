@@ -7,7 +7,7 @@
 
 @Author:  acsm
 
-@Version: A/0
+@Version: A/1
 
 @Args:    light-theme: Theme loaded in sun hours.
           dark-theme:  Theme loaded in dark hours.
@@ -226,7 +226,7 @@
 
 @Author:  acsm
 
-@Version: A/0
+@Version: A/1
 
 @Args:    light-theme: Theme loaded in sun hours.
           dark-theme:  Theme loaded in dark hours.
@@ -235,6 +235,20 @@
 
 @Links:   https://www.timeanddate.com/sun where look for your country and city names.
 "
+
+;;;; Detect internet connection
+  ;; Change "www.google.es" with your proxy server if you need it. "my_proxy.es"
+  (if (null (boundp 'host))
+      (setq internet-external-host "www.google.com"))
+  (setq is-internet-up (call-process "ping" nil nil nil "-c" "1" "-w" "1" internet-external-host))
+
+  (if (/= is-internet-up 0)
+      ;; If internet is not connected
+      (lambda ()
+        (adaptative-theme(dark-theme light-theme))
+        (progn (message "No network detected") nil)
+        (return))
+    )
 
 ;;;; Load basic requieres
 (require 'org-web-tools)
@@ -321,13 +335,27 @@
 
      @Author:  acsm
 
-     @Version: A/0
+     @Version: A/1
 
      @Args:    light-theme: Theme loaded in sun hours.
                dark-theme:  Theme loaded in dark hours.
 
      @Links:   https://www.timeanddate.com where look for your country and city names.
      "
+
+;;;; Detect internet connection
+  ;; Change "www.google.es" with your proxy server if you need it. "my_proxy.es"
+  (if (null (boundp 'host))
+      (setq internet-external-host "www.google.com"))
+  (setq is-internet-up (call-process "ping" nil nil nil "-c" "1" "-w" "1" internet-external-host))
+
+  (if (/= is-internet-up 0)
+      ;; If internet is not connected
+      (lambda ()
+        (adaptative-theme(dark-theme light-theme))
+        (progn (message "No network detected") nil)
+        (return))
+    )
 
 ;;;; Load basic requieres
   (require 'org-web-tools)
