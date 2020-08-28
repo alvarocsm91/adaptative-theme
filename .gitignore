@@ -1,2 +1,3 @@
 # Ignore all emacs backups folder
 *.backups/
+*.elc
