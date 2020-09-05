@@ -3,11 +3,10 @@
 ;; Copyright (C) 2020  Álvaro Cortés Sánchez-Migallón
 
 ;; Author: Álvaro Cortés Sánchez-Migallón <alvarocsm.91@gmail.com>
-;; Keywords: theme, load-theme, sundown, sunset, location
+;; Keywords: internals, tools, unix, local, terminals
 ;; Url: https://github.com/alvarocsm91/adaptative-theme
 ;; Package-requires: ((emacs "25.1"))
-;; Keywords: theme, load-theme, sundown, sunset, location
-;; Version: A/1
+;; Version: 1.0.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
