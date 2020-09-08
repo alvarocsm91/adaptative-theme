@@ -1,10 +1,10 @@
-;;; adaptative-theme.el --- Adaptative Emacs theme to protect your eyesight --- -*- lexical-binding: t -*-
+;;; adaptive-theme.el --- Adaptive Emacs theme to protect your eyesight --- -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2020  Álvaro Cortés Sánchez-Migallón
 
 ;; Author: Álvaro Cortés Sánchez-Migallón <alvarocsm.91@gmail.com>
 ;; Keywords: internals, tools, unix, local, terminals
-;; Url: https://github.com/alvarocsm91/adaptative-theme
+;; Url: https://github.com/alvarocsm91/adaptive-theme
 ;; Package-requires: ((emacs "25.1"))
 ;; Version: 1.0.1
 
@@ -23,25 +23,25 @@
 
 ;;; Commentary:
 
-;; Adaptative Theme package has been created to protect your eyesight while working near
+;; Adaptive Theme package has been created to protect your eyesight while working near
 ;; windows or outside buildings. Its functions change your Emacs theme from light to dark
 ;; and backwards, depending on the hour.
 
 ;; This package provides three functions, explained from less to more resource usage.
-;; The "adaptative-theme" function allows to load different Emacs themes automatically based
+;; The "adaptive-theme" function allows to load different Emacs themes automatically based
 ;; on the hour set up by the user or by default sunset and sunrise hours.
-;; The "adaptative-theme-location" function allows to load different Emacs themes
+;; The "adaptive-theme-location" function allows to load different Emacs themes
 ;; automatically based on the city set up by the user or by default sunset and sunrise city
 ;; hours.
-;; The "adaptative-theme-autolocation" function allows to load different Emacs themes
+;; The "adaptive-theme-autolocation" function allows to load different Emacs themes
 ;; automatically based on the nearest city detected.
 
 ;;; Code:
 
-;;; Adaptative theme function
+;;; Adaptive theme function
 
-(defun adaptative-theme (light-theme dark-theme &optional am-hour pm-hour am-min pm-min am-sec pm-sec)
-  "Adaptative theme function:
+(defun adaptive-theme (light-theme dark-theme &optional am-hour pm-hour am-min pm-min am-sec pm-sec)
+  "Adaptive theme function:
 
     @Brief:   This function allow to configure different themes depending on the
               Emacs initialization time.
@@ -312,15 +312,15 @@
   ;; Reset timer
 
   (if (eval at--is-day)
-      (setq at--pm-timer (run-at-time at--pm-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval at--am-hour-init) (eval at--pm-hour-init) (eval at--am-min-init) (eval at--pm-min-init) (eval at--am-sec-init) (eval at--pm-sec-init))))
+      (setq at--pm-timer (run-at-time at--pm-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval at--am-hour-init) (eval at--pm-hour-init) (eval at--am-min-init) (eval at--pm-min-init) (eval at--am-sec-init) (eval at--pm-sec-init))))
 
   (if (eval at--is-morning)
-      (setq at--am-timer (run-at-time at--am-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval at--am-hour-init) (eval at--pm-hour-init) (eval at--am-min-init) (eval at--pm-min-init) (eval at--am-sec-init) (eval at--pm-sec-init)))))
+      (setq at--am-timer (run-at-time at--am-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval at--am-hour-init) (eval at--pm-hour-init) (eval at--am-min-init) (eval at--pm-min-init) (eval at--am-sec-init) (eval at--pm-sec-init)))))
 
-;;; Adaptative theme location
+;;; Adaptive theme location
 
-(defun adaptative-theme-location (light-theme dark-theme &optional country city)
-  "Adaptative theme location function:
+(defun adaptive-theme-location (light-theme dark-theme &optional country city)
+  "Adaptive theme location function:
 
    @Brief:   This function allow to configure different themes depending on your
              location when work Emacs.
@@ -340,7 +340,7 @@
 
   ;;;; Setup variables
 
-  ;; atl-- include all adaptative-theme-location variables
+  ;; atl-- include all adaptive-theme-location variables
 
   (defvar atl--internet-external-host)
   (defvar atl--is-internet-up)
@@ -378,7 +378,7 @@
       ;; If internet is not connected
 
       (lambda ()
-        (adaptative-theme(light-theme dark-theme))
+        (adaptive-theme(light-theme dark-theme))
         (progn (message "No network detected") nil)
         (return)))
 
@@ -468,14 +468,14 @@
   (setq atl--pmMinStr (substring atl--pmTime (+ atl--pmSeparator 1) (+ atl--pmSeparator 3)))
   (setq atl--pmMinInt (string-to-number atl--pmMinStr))
 
-  ;;;; Execute adaptative theme function
+  ;;;; Execute adaptive theme function
 
-  (adaptative-theme light-theme dark-theme atl--amHourInt atl--pmHourInt atl--amMinInt atl--pmMinInt))
+  (adaptive-theme light-theme dark-theme atl--amHourInt atl--pmHourInt atl--amMinInt atl--pmMinInt))
 
-;;; Auto location adaptative theme
+;;; Auto location adaptive theme
 
-(defun adaptative-theme-autolocation (light-theme dark-theme)
-  "Adaptative theme auto-location function:
+(defun adaptive-theme-autolocation (light-theme dark-theme)
+  "Adaptive theme auto-location function:
 
    @Brief:   This function allow to configure different themes depending on your
              location when work Emacs, it get your location from internet.
@@ -491,7 +491,7 @@
 
   ;;;; Setup variables
 
-  ;; ata-- include all adaptative-theme-autolocation variables
+  ;; ata-- include all adaptive-theme-autolocation variables
 
   (defvar ata--internet-external-host)
   (defvar ata--is-internet-up)
@@ -517,7 +517,7 @@
       ;; If internet is not connected
 
       (lambda ()
-        (adaptative-theme(dark-theme light-theme))
+        (adaptive-theme(dark-theme light-theme))
         (progn (message "No network detected") nil)
         (return)))
 
@@ -577,10 +577,10 @@
 
   ;; Execute location function with data extracted.
 
-  (adaptative-theme-location light-theme dark-theme ata--myCountryLoc ata--myCityLoc))
+  (adaptive-theme-location light-theme dark-theme ata--myCountryLoc ata--myCityLoc))
 
-;;;(provide 'adaptative-theme)
+;;;(provide 'adaptive-theme)
 
-(provide 'adaptative-theme)
+(provide 'adaptive-theme)
 
-;;; adaptative-theme.el ends here
+;;; adaptive-theme.el ends here

@@ -2,7 +2,7 @@
 #+options: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
 #+options: email:nil f:t inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
 #+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
-#+title: adaptative-theme
+#+title: adaptive-theme
 #+date: \today
 #+author: Álvaro Cortés Sánchez-Migallón
 #+email: alvarocsm.91@gmail.com
@@ -15,13 +15,13 @@
 #+latex_header:
 #+latex_header_extra:
 #+description:
-#+keywords: Emacs, Lisp, Scraping, Theme, Adaptative
-#+subtitle: adaptative theme documentation
+#+keywords: Emacs, Lisp, Scraping, Theme, Adaptive
+#+subtitle: adaptive theme documentation
 #+latex_compiler: pdflatex
 
 \newpage
 
-* adaptative-theme
+* adaptive-theme
 
   This file contains package function explanation, all use cases and description
   with examples. For more information, please contact me.
@@ -32,12 +32,12 @@
   next code at the end of your /init.el/ file.
 
   #+begin_src lisp
-    (load-file "./adaptative-theme/adaptative-theme.el")
+    (load-file "./adaptive-theme/adaptive-theme.el")
   #+end_src
 
 * Requirements
 
-  To use *adaptative-theme-location* scraping require /[[https://github.com/alphapapa/org-web-tools][org-web-tools]]/ package,
+  To use *adaptive-theme-location* scraping require /[[https://github.com/alphapapa/org-web-tools][org-web-tools]]/ package,
   installed when use the function thet require it. This package require /Emacs
   25.1/ or later varsion. This functions has been tested with my /init.el/
   configuration and /Emacs 28.0.50/.
@@ -47,10 +47,10 @@
 
 * How to use
 
-  You can use different functions included in /adaptative-theme.el/ file, in this
+  You can use different functions included in /adaptive-theme.el/ file, in this
   section is explained how to use.
 
-** adaptative-theme
+** adaptive-theme
 
    This is most simply function, only compare current hour with default or
    customized hour and load selected theme. This is faster function.
@@ -58,20 +58,20 @@
    Default time
 
    #+begin_src lisp
-     (adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
+     (adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
    #+end_src
 
    Customized time, am time 08:01:03, pm time 20:02:04.
 
    #+begin_src lisp
-     (adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard 08 20 01 02 03 04)
+     (adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard 08 20 01 02 03 04)
    #+end_src
 
-** adaptative-theme-location
+** adaptive-theme-location
 
    This function allow to get am and pm time from the city that you want,
    thought to set your current city and country. Is slower than
-   /adaptative-theme/ because require to access to internet to get data time.
+   /adaptive-theme/ because require to access to internet to get data time.
 
    Please, search your city in https://www.timeanddate.com/sun to execute this
    function successfuly. As before function, have two methods, becouse have
@@ -80,53 +80,53 @@
    Default location. Madrid, Spain.
 
    #+begin_src lisp
-     (adaptative-theme-location 'gruvbox-light-soft 'gruvbox-dark-hard)
+     (adaptive-theme-location 'gruvbox-light-soft 'gruvbox-dark-hard)
    #+end_src
 
    Customized location, in munich city and germany as country.
 
    #+begin_src lisp
-     (adaptative-theme-location 'gruvbox-light-soft
+     (adaptive-theme-location 'gruvbox-light-soft
      'gruvbox-dark-hard "germany" "munich")
    #+end_src
 
-** adaptative-theme-autolocation
+** adaptive-theme-autolocation
 
    This function allow to get am and pm time from the city that you are. Is
-   slower than /adaptative-theme/ /adaptative-theme-location/ because require to
+   slower than /adaptive-theme/ /adaptive-theme-location/ because require to
    access to internet to get data time and location.
 
    #+begin_src lisp
-     (adaptative-theme-autolocation 'gruvbox-light-soft 'gruvbox-dark-hard)
+     (adaptive-theme-autolocation 'gruvbox-light-soft 'gruvbox-dark-hard)
    #+end_src
 
 * Change log. Ver/Rev.
 
 ** A/0
 
-   First version include operative /adaptative-theme/ without errors and
-   /adaptative-theme-location/ in debug stage.
+   First version include operative /adaptive-theme/ without errors and
+   /adaptive-theme-location/ in debug stage.
 
 ** A/1
 
-   Stable version /adaptative-theme/, /adaptative-theme-location/ and
-   /adaptative-theme-autolocation/.
+   Stable version /adaptive-theme/, /adaptive-theme-location/ and
+   /adaptive-theme-autolocation/.
 
 * Development
 
   All contributions and suggersion are welcome, only thinking to improve.
 
-** adaptative-theme
+** adaptive-theme
 
    At first we found different arguments, two needed, /light-theme/ that is
    loaded at day hours and /datk-theme/, that is loaded at night. The optional
    arguments are /am/ hour and /pm/ hour, you can choose both hours.
 
-   #+begin_src lisp :tangle adaptative-theme.el
-     ;;; Adaptative theme function
-     (defun adaptative-theme
+   #+begin_src lisp :tangle adaptive-theme.el
+     ;;; Adaptive theme function
+     (defun adaptive-theme
        (light-theme dark-theme &optional am-hour pm-hour am-min pm-min am-sec pm-sec)
-       " Adaptative theme function:
+       " Adaptive theme function:
      @Brief:   This function allow to configure different themes depending on the
                emacs initialization time.
 
@@ -151,7 +151,7 @@
    optional arguments are /nil/. I choose as default /7/ as dawn hour and /20/
    as sunset hour.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Set default values
        ;; Set dawn time
        (unless (eval am-hour)
@@ -184,7 +184,7 @@
    substrings, later we need to transform those substrings to integer to compare
    with inpus or default arguments.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Get time
        (set 'init-time (current-time-string))
 
@@ -216,7 +216,7 @@
 
    With the pm hour is the same but in the opposite.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Detect if is day
        (setq is-day t)
        (setq is-morning nil)
@@ -277,7 +277,7 @@
    Load theme depending on the point of the day, if is day light theme and if is
    night dark theme.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Load theme
        (if is-day
            ;; Load ligth theme if is day
@@ -296,12 +296,12 @@
    To make it we will use org timers, but first we should get next hour, the
    timers accept the hour as string /"hh:mm"/.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Program nex theme change
        ;; Timer example
        ;;(run-at-time "5 sec" nil #'message "Prueba timer")
        ;;(run-at-time "20:30" nil #'kill-emacs)
-       ;;(run-at-time "5 sec" nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
+       ;;(run-at-time "5 sec" nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard)
 
        ;;;;; Calculate time before change day - night
        (if (eval is-day)
@@ -372,7 +372,7 @@
    setup the timer at time before current it will evaluate the function all time
    blocking emacs. I comment this timer because I close emacs all night.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;;; Program
      ;; Cancel timer if exist
      (if (eval is-day)
@@ -386,28 +386,28 @@
 
      ;; Reset timer
      (if (eval is-day)
-         (setq pm-timer (run-at-time pm-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
+         (setq pm-timer (run-at-time pm-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
 
      (if (eval is-morning)
-         (setq am-timer (run-at-time am-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
+         (setq am-timer (run-at-time am-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
 
      ;;(if (eval is-night)
-     ;;    (setq am-timer (run-at-time am-str nil #'adaptative-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
+     ;;    (setq am-timer (run-at-time am-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval am-hour-init) (eval pm-hour-init) (eval am-min-init) (eval pm-min-init) (eval am-sec-init) (eval pm-sec-init))))
 
          )
    #+end_src
 
-** adaptative-theme-location
+** adaptive-theme-location
 
    This function have two arguments, light-theme and dark-themen, as optional
    arguments it have two, country and city to setect in which city you are and
    in function of this search am hour and pm hour to detect dawn and sunset
    time.
 
-   #+begin_src lisp :tangle adaptative-theme.el
-     ;;; Adaptative theme location
-     (defun adaptative-theme-location (ligth-theme dark-theme &optional country city)
-       "  Adaptative theme location function:
+   #+begin_src lisp :tangle adaptive-theme.el
+     ;;; Adaptive theme location
+     (defun adaptive-theme-location (ligth-theme dark-theme &optional country city)
+       "  Adaptive theme location function:
      @Brief:   This function allow to configure different themes depending on your
                location when work emacs.
 
@@ -427,7 +427,7 @@
    First of all, we should check if we can access to internet to download
    packages and access web to scrap the information.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Detect internet connection
        ;; Change "www.google.es" with your proxy server if you need it. "my_proxy.es"
        (if (null (boundp 'host))
@@ -437,7 +437,7 @@
        (if (/= is-internet-up 0)
            ;; If internet is not connected
            (lambda ()
-             (adaptative-theme(dark-theme light-theme))
+             (adaptive-theme(dark-theme light-theme))
              (progn (message "No network detected") nil)
              (return))
          )
@@ -451,7 +451,7 @@
     https://www.timeanddate.com/sun, is recomended to search your city in the
     web to avoid errors.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Load basic requieres
      (require 'org-web-tools)
 
@@ -475,7 +475,7 @@
    Later get in which point os the html stris is the match, and get a subtring
    filtering all the web.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;; Compose url
      (setq web_to_scrap (concat url "/" country "/" city))
      (setq webDataHtml (org-web-tools--get-url web_to_scrap))
@@ -502,7 +502,7 @@
    Later regenerate the regex to extract am hour and pm hour from the html
    substring.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Create regex group time
      (setq timeGroupRegex "[0-9]\\{1,2\\}:[0-9]\\{1,2\\}")
 
@@ -542,22 +542,22 @@
      (setq pmMinInt (string-to-number pmMinStr))
    #+end_src
 
-   Execute adaptative theme function with the hour got from web.
+   Execute adaptive theme function with the hour got from web.
 
-   #+begin_src lisp :tangle adaptative-theme.el
-     ;;;; Execute adaptative theme function
-     (adaptative-theme ligth-theme dark-theme amHourInt pmHourInt amMinInt pmMinInt))
+   #+begin_src lisp :tangle adaptive-theme.el
+     ;;;; Execute adaptive theme function
+     (adaptive-theme ligth-theme dark-theme amHourInt pmHourInt amMinInt pmMinInt))
    #+end_src
 
-** adaptative-theme-autolocation
+** adaptive-theme-autolocation
 
    This function allow to get your location and execute
-   /adaptative-theme-location/ with data extracted from internet.
+   /adaptive-theme-location/ with data extracted from internet.
 
-   #+begin_src lisp :tangle adaptative-theme.el
-     ;;; Auto location adaptative theme
-     (defun adaptative-theme-autolocation (light-theme dark-theme)
-       "  Adaptative theme auto-location function:
+   #+begin_src lisp :tangle adaptive-theme.el
+     ;;; Auto location adaptive theme
+     (defun adaptive-theme-autolocation (light-theme dark-theme)
+       "  Adaptive theme auto-location function:
           @Brief:   This function allow to configure different themes depending on your
                     location when work emacs, it get your location from internet.
 
@@ -575,7 +575,7 @@
    First of all, we should check if we can access to internet to download
    packages and access web to scrap the information.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Detect internet connection
        ;; Change "www.google.es" with your proxy server if you need it. "my_proxy.es"
        (if (null (boundp 'host))
@@ -585,7 +585,7 @@
        (if (/= is-internet-up 0)
            ;; If internet is not connected
            (lambda ()
-             (adaptative-theme(dark-theme light-theme))
+             (adaptive-theme(dark-theme light-theme))
              (progn (message "No network detected") nil)
              (return))
          )
@@ -594,7 +594,7 @@
    Require /org-web-tools/ and get main web where we can saw our country and
    city.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Load basic requieres
        (require 'org-web-tools)
 
@@ -614,7 +614,7 @@
 
    Identify keys to extrat the information.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Extract regex value
        (setq location-regex
              (string-match "The World Clock" webDataHtml))
@@ -625,7 +625,7 @@
 
    Filter this data from first value detected with special characters.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
      ;;;; Extract regex value
        (setq init-regex
              (string-match "worldclock/" subLocStr))
@@ -654,11 +654,11 @@
              (substring subLocStr (+ init-regex 1) (- end-regex 2)))
    #+end_src
 
-   Execute adaptative theme location with data extracted.
+   Execute adaptive theme location with data extracted.
 
-   #+begin_src lisp :tangle adaptative-theme.el
+   #+begin_src lisp :tangle adaptive-theme.el
        ;; Execute location function with data extracted.
-       (adaptative-theme-location light-theme dark-theme myCountryLoc myCityLoc)
+       (adaptive-theme-location light-theme dark-theme myCountryLoc myCityLoc)
        )
    #+end_src
 
