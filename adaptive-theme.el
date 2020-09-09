@@ -378,8 +378,9 @@
       ;; If internet is not connected
 
       (lambda ()
-        (adaptive-theme(light-theme dark-theme))
-        (progn (message "No network detected") nil) (return)))
+        (adaptive-theme (light-theme dark-theme))
+        (progn (message "No network detected") nil)
+        (return)))
 
   ;;;; Load basic requieres
 
@@ -516,7 +517,7 @@
       ;; If internet is not connected
 
       (lambda ()
-        (adaptive-theme(dark-theme light-theme))
+        (adaptive-theme (dark-theme light-theme))
         (progn (message "No network detected") nil) (return)))
 
   ;;;; Load basic requieres
