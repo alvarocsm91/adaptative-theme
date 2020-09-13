@@ -1,4 +1,4 @@
-;;; adaptive-theme.el --- Adaptive Emacs theme to protect your eyesight --- -*- lexical-binding: t -*-
+;;; adaptive-theme.el --- Adaptive theme to protect your eyesight --- -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2020  Álvaro Cortés Sánchez-Migallón
 
@@ -24,16 +24,16 @@
 ;;; Commentary:
 
 ;; Adaptive Theme package has been created to protect your eyesight while working near
-;; windows or outside buildings. Its functions change your Emacs theme from light to dark
+;; windows or outside buildings. Its functions change your theme from light to dark
 ;; and backwards, depending on the hour.
 
 ;; This package provides three functions, explained from less to more resource usage.
-;; The "adaptive-theme" function allows to load different Emacs themes automatically based
+;; The "adaptive-theme" function allows to load different themes automatically based
 ;; on the hour set up by the user or by default sunset and sunrise hours.
-;; The "adaptive-theme-location" function allows to load different Emacs themes
+;; The "adaptive-theme-location" function allows to load different themes
 ;; automatically based on the city set up by the user or by default sunset and sunrise city
 ;; hours.
-;; The "adaptive-theme-autolocation" function allows to load different Emacs themes
+;; The "adaptive-theme-autolocation" function allows to load different themes
 ;; automatically based on the nearest city detected.
 
 ;;; Code:
@@ -44,7 +44,7 @@
   "Adaptive theme function:
 
     @Brief:   This function allow to configure different themes depending on the
-              Emacs initialization time.
+              initialization time.
 
     @Author:  acsm
 
@@ -323,7 +323,7 @@
   "Adaptive theme location function:
 
    @Brief:   This function allow to configure different themes depending on your
-             location when work Emacs.
+             location when work.
 
    @Author:  acsm
 
@@ -478,7 +478,7 @@
   "Adaptive theme auto-location function:
 
    @Brief:   This function allow to configure different themes depending on your
-             location when work Emacs, it get your location from internet.
+             location when work, it get your location from internet.
 
    @Author:  acsm
 
