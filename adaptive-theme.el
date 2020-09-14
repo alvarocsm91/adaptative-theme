@@ -5,7 +5,7 @@
 ;; Author: Álvaro Cortés Sánchez-Migallón <alvarocsm.91@gmail.com>
 ;; Keywords: internals, tools, unix, local, terminals
 ;; Url: https://github.com/alvarocsm91/adaptive-theme
-;; Package-requires: ((emacs "25.1"))
+;; Package-requires: ((emacs "25.1") (require 'org-web-tools))
 ;; Version: 1.0.1
 
 ;; This program is free software; you can redistribute it and/or modify
