@@ -64,31 +64,56 @@
 
   ;;;; Set default variables
 
-  (defvar adaptive-theme--init-time)
-  (defvar adaptive-theme--init-hour-str)
-  (defvar adaptive-theme--init-min-str)
-  (defvar adaptive-theme--init-sec-str)
-  (defvar adaptive-theme--init-hour-int)
-  (defvar adaptive-theme--init-min-int)
-  (defvar adaptive-theme--init-sec-int)
-  (defvar adaptive-theme--is-day)
-  (defvar adaptive-theme--is-morning)
-  (defvar adaptive-theme--is-night)
-  (defvar adaptive-theme--pm-hour-str)
-  (defvar adaptive-theme--pm-min-str)
-  (defvar adaptive-theme--pm-str)
-  (defvar adaptive-theme--am-hour-str)
-  (defvar adaptive-theme--am-min-str)
-  (defvar adaptive-theme--am-str)
-  (defvar adaptive-theme--am-str-int)
-  (defvar adaptive-theme--am-hour-init)
-  (defvar adaptive-theme--am-min-init)
-  (defvar adaptive-theme--am-sec-init)
-  (defvar adaptive-theme--pm-hour-init)
-  (defvar adaptive-theme--pm-min-init)
-  (defvar adaptive-theme--pm-sec-init)
-  (defvar adaptive-theme--am-timer)
-  (defvar adaptive-theme--pm-timer)
+  (defvar adaptive-theme--init-time nil
+    "Store current time. adaptive-theme variable")
+  (defvar adaptive-theme--init-hour-str nil
+    "Store hour value with string format. adaptive-theme variable")
+  (defvar adaptive-theme--init-min-str nil
+    "Store minute value with string format. adaptive-theme variable")
+  (defvar adaptive-theme--init-sec-str nil
+    "Store seconds value with string format. adaptive-theme variable")
+  (defvar adaptive-theme--init-hour-int nil
+    "Store hour value with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--init-min-int nil
+    "Store minute value with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--init-sec-int nil
+    "Store seconds value with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--is-day nil
+    "True if is day, else nil. adaptive-theme variable")
+  (defvar adaptive-theme--is-morning nil
+    "True if is morning, else nil. adaptive-theme variable")
+  (defvar adaptive-theme--is-night nil
+    "True if is night, else nil. adaptive-theme variable")
+  (defvar adaptive-theme--pm-hour-str nil
+    "Store pm hour with string format. adaptive-theme variable")
+  (defvar adaptive-theme--pm-min-str nil
+    "Store pm minutes with string format. adaptive-theme variable")
+  (defvar adaptive-theme--pm-str nil
+    "Store pm time with string format. adaptive-theme variable")
+  (defvar adaptive-theme--am-hour-str nil
+    "Store am hour with string format. adaptive-theme variable")
+  (defvar adaptive-theme--am-min-str nil
+    "Store am minutes with string format. adaptive-theme variable")
+  (defvar adaptive-theme--am-str nil
+    "Store am time with string format. adaptive-theme variable")
+  (defvar adaptive-theme--am-str-int nil
+    "Store am time with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--pm-hour-init nil
+    "Store pm hour with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--pm-min-init nil
+    "Store pm minutes with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--pm-sec-init nil
+    "Store pm seconds with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--am-hour-init nil
+    "Store am hour with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--am-min-init nil
+    "Store am minutes with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--am-sec-init nil
+    "Store am seconds with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--pm-timer nil
+    "Store pm timer value. adaptive-theme variable")
+  (defvar adaptive-theme--am-timer nil
+    "Store am timer value. adaptive-theme variable")
 
   ;;;; Set default values
 
@@ -342,28 +367,52 @@
 
   ;; adaptive-theme-- include all adaptive-theme-location variables
 
-  (defvar adaptive-theme--internet-external-host)
-  (defvar adaptive-theme--is-internet-up)
-  (defvar adaptive-theme--url)
-  (defvar adaptive-theme--web_to_scrap)
-  (defvar adaptive-theme--webDataHtml)
-  (defvar adaptive-theme--webRegexModel)
-  (defvar adaptive-theme--daylight-regex)
-  (defvar adaptive-theme--subWebStr)
-  (defvar adaptive-theme--timeGroupRegex)
-  (defvar adaptive-theme--timeStr)
-  (defvar adaptive-theme--amTime)
-  (defvar adaptive-theme--amSeparator)
-  (defvar adaptive-theme--amHourStr)
-  (defvar adaptive-theme--amHourInt)
-  (defvar adaptive-theme--amMinStr)
-  (defvar adaptive-theme--amMinInt)
-  (defvar adaptive-theme--pmSeparator)
-  (defvar adaptive-theme--pmHourStr)
-  (defvar adaptive-theme--pmHourInt)
-  (defvar adaptive-theme--pmMinStr)
-  (defvar adaptive-theme--pmMinInt)
-
+  (defvar adaptive-theme--internet-external-host nil
+    "Store if can connect with internet. adaptive-theme variable")
+  (defvar adaptive-theme--is-internet-up nil
+    "Store if can connect with internet. adaptive-theme variable")
+  (defvar adaptive-theme--url nil
+    "Store url string to connect. adaptive-theme variable")
+  (defvar adaptive-theme--web_to_scrap nil
+    "Store wev to scrap with time information. adaptive-theme variable")
+  (defvar adaptive-theme--webDataHtml nil
+    "Store HTML from with information. adaptive-theme variable")
+  (defvar adaptive-theme--webRegexModel nil
+    "Store regex string model. adaptive-theme variable")
+  (defvar adaptive-theme--daylight-regex nil
+    "Store sunset regex store. adaptive-theme variable")
+  (defvar adaptive-theme--subWebStr nil
+    "Store HTML subtring. adaptive-theme variable")
+  (defvar adaptive-theme--timeGroupRegex nil
+    "Store time group regex. adaptive-theme variable")
+  (defvar adaptive-theme--timeStr nil
+    "Store time string from web. adaptive-theme variable")
+  (defvar adaptive-theme--amTime nil
+    "Store am time string. adaptive-theme variable")
+  (defvar adaptive-theme--amSeparator nil
+    "Store am separator (:). adaptive-theme variable")
+  (defvar adaptive-theme--amHourStr nil
+    "Store am hour with string format. adaptive-theme variable")
+  (defvar adaptive-theme--amHourInt nil
+    "Store am hour with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--amMinStr nil
+    "Store am minutes with string format. adaptive-theme variable")
+  (defvar adaptive-theme--amMinInt nil
+    "Store am minutes with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--pmSeparator nil
+    "Store pm separator (:). adaptive-theme variable")
+  (defvar adaptive-theme--pmHourStr nil
+    "Store pm hour with string format. adaptive-theme variable")
+  (defvar adaptive-theme--pmHourInt nil
+    "Store pm hour with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--pmMinStr nil
+    "Store pm minutes with string format. adaptive-theme variable")
+  (defvar adaptive-theme--pmMinInt nil
+    "Store pm minutes with integer format. adaptive-theme variable")
+  (defvar adaptive-theme--pmTime nil
+    "Store pm time. adaptive-theme variable")
+  (defvar adaptive-theme--timeGroupRegex nil
+    "Store time group regex. adaptive-theme variable")
 
   ;;;; Detect internet connection
 
@@ -434,14 +483,15 @@
   (setq adaptive-theme--amTime (substring adaptive-theme--subWebStr adaptive-theme--timeStr (+ adaptive-theme--timeStr 5)))
 
   ;;;; Get substring pm time
+
   (setq adaptive-theme--timeStr (string-match adaptive-theme--timeGroupRegex adaptive-theme--subWebStr (+ adaptive-theme--timeStr 6)))
 
   ;;;; Extract PM time
-  (defvar adaptive-theme--pmTime)
+
   (setq adaptive-theme--pmTime (substring adaptive-theme--subWebStr adaptive-theme--timeStr (+ adaptive-theme--timeStr 5)))
 
   ;;;; Regenerate time regext to get hour and minutes
-  (defvar adaptive-theme--timeGroupRegex)
+
   (setq adaptive-theme--timeGroupRegex ":")
 
   ;;;; Get AM Hour
@@ -493,16 +543,26 @@
 
   ;; adaptive-theme-- include all adaptive-theme-autolocation variables
 
-  (defvar adaptive-theme--internet-external-host)
-  (defvar adaptive-theme--is-internet-up)
-  (defvar adaptive-theme--url-location)
-  (defvar adaptive-theme--webDataHtml)
-  (defvar adaptive-theme--location-regex)
-  (defvar adaptive-theme--subLocStr)
-  (defvar adaptive-theme--init-regex)
-  (defvar adaptive-theme--end-regex)
-  (defvar adaptive-theme--myCountryLoc)
-  (defvar adaptive-theme--myCityLoc)
+  (defvar adaptive-theme--internet-external-host nil
+    "Store external host to detect internet connection. adaptive-theme variable")
+  (defvar adaptive-theme--is-internet-up nil
+    "Store if internet connection exist. adaptive-theme variable")
+  (defvar adaptive-theme--url-location nil
+    "Store url from web location. adaptive-theme variable")
+  (defvar adaptive-theme--webDataHtml nil
+    "Store HTML web page. adaptive-theme variable")
+  (defvar adaptive-theme--location-regex nil
+    "Store location regex pattern. adaptive-theme variable")
+  (defvar adaptive-theme--subLocStr nil
+    "Store HTML substring first filter. adaptive-theme variable")
+  (defvar adaptive-theme--init-regex nil
+    "Store previous substring pattern. adaptive-theme variable")
+  (defvar adaptive-theme--end-regex nil
+    "Store subsequent regex substring pattern. adaptive-theme variable")
+  (defvar adaptive-theme--myCountryLoc nil
+    "Store substring country location. adaptive-theme variable")
+  (defvar adaptive-theme--myCityLoc nil
+    "Store substring city location. adaptive-theme variable")
 
   ;;;; Detect internet connection
 
