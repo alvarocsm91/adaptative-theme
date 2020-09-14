@@ -64,31 +64,31 @@
 
   ;;;; Set default variables
 
-  (defvar at--init-time)
-  (defvar at--init-hour-str)
-  (defvar at--init-min-str)
-  (defvar at--init-sec-str)
-  (defvar at--init-hour-int)
-  (defvar at--init-min-int)
-  (defvar at--init-sec-int)
-  (defvar at--is-day)
-  (defvar at--is-morning)
-  (defvar at--is-night)
-  (defvar at--pm-hour-str)
-  (defvar at--pm-min-str)
-  (defvar at--pm-str)
-  (defvar at--am-hour-str)
-  (defvar at--am-min-str)
-  (defvar at--am-str)
-  (defvar at--am-str-int)
-  (defvar at--am-hour-init)
-  (defvar at--am-min-init)
-  (defvar at--am-sec-init)
-  (defvar at--pm-hour-init)
-  (defvar at--pm-min-init)
-  (defvar at--pm-sec-init)
-  (defvar at--am-timer)
-  (defvar at--pm-timer)
+  (defvar adaptive-theme--init-time)
+  (defvar adaptive-theme--init-hour-str)
+  (defvar adaptive-theme--init-min-str)
+  (defvar adaptive-theme--init-sec-str)
+  (defvar adaptive-theme--init-hour-int)
+  (defvar adaptive-theme--init-min-int)
+  (defvar adaptive-theme--init-sec-int)
+  (defvar adaptive-theme--is-day)
+  (defvar adaptive-theme--is-morning)
+  (defvar adaptive-theme--is-night)
+  (defvar adaptive-theme--pm-hour-str)
+  (defvar adaptive-theme--pm-min-str)
+  (defvar adaptive-theme--pm-str)
+  (defvar adaptive-theme--am-hour-str)
+  (defvar adaptive-theme--am-min-str)
+  (defvar adaptive-theme--am-str)
+  (defvar adaptive-theme--am-str-int)
+  (defvar adaptive-theme--am-hour-init)
+  (defvar adaptive-theme--am-min-init)
+  (defvar adaptive-theme--am-sec-init)
+  (defvar adaptive-theme--pm-hour-init)
+  (defvar adaptive-theme--pm-min-init)
+  (defvar adaptive-theme--pm-sec-init)
+  (defvar adaptive-theme--am-timer)
+  (defvar adaptive-theme--pm-timer)
 
   ;;;; Set default values
 
@@ -106,125 +106,125 @@
 
   ;; Set dawn time aux
 
-  (setq at--am-hour-init am-hour)
-  (setq at--am-min-init am-min)
-  (setq at--am-sec-init am-sec)
+  (setq adaptive-theme--am-hour-init am-hour)
+  (setq adaptive-theme--am-min-init am-min)
+  (setq adaptive-theme--am-sec-init am-sec)
 
   ;; Set sundown time
 
-  (setq at--pm-hour-init pm-hour)
-  (setq at--pm-min-init pm-min)
-  (setq at--pm-sec-init pm-sec)
+  (setq adaptive-theme--pm-hour-init pm-hour)
+  (setq adaptive-theme--pm-min-init pm-min)
+  (setq adaptive-theme--pm-sec-init pm-sec)
 
   ;;;; Get time
 
-  (setq at--init-time (current-time-string))
+  (setq adaptive-theme--init-time (current-time-string))
 
   ;;;; Get integer hour
 
   ;; Get hour
 
-  (setq at--init-hour-str (substring at--init-time 11 13))
-  (setq at--init-hour-int (string-to-number at--init-hour-str 10))
+  (setq adaptive-theme--init-hour-str (substring adaptive-theme--init-time 11 13))
+  (setq adaptive-theme--init-hour-int (string-to-number adaptive-theme--init-hour-str 10))
 
   ;; Get minute
 
-  (setq at--init-min-str (substring at--init-time 14 16))
-  (setq at--init-min-int (string-to-number at--init-min-str 10))
+  (setq adaptive-theme--init-min-str (substring adaptive-theme--init-time 14 16))
+  (setq adaptive-theme--init-min-int (string-to-number adaptive-theme--init-min-str 10))
 
   ;; Get Second
 
-  (setq at--init-sec-str (substring at--init-time 17 19))
-  (setq at--init-sec-int (string-to-number at--init-sec-str 10))
+  (setq adaptive-theme--init-sec-str (substring adaptive-theme--init-time 17 19))
+  (setq adaptive-theme--init-sec-int (string-to-number adaptive-theme--init-sec-str 10))
 
   ;;;; Detect if is day
 
-  (setq at--is-day t)
-  (setq at--is-morning nil)
-  (setq at--is-night nil)
+  (setq adaptive-theme--is-day t)
+  (setq adaptive-theme--is-morning nil)
+  (setq adaptive-theme--is-night nil)
 
   ;;;;; Compare with am
 
   ;;;;;; Hour
 
-  (if (< at--init-hour-int am-hour)
+  (if (< adaptive-theme--init-hour-int am-hour)
 
       ;; true if init hour <  dawn hour is night
 
-      (setq at--is-day nil)
+      (setq adaptive-theme--is-day nil)
 
     ;; Evaluate minutes if is the same hour
 
-    (if (= at--init-hour-int am-hour)
+    (if (= adaptive-theme--init-hour-int am-hour)
 
         ;; evaluate minutes
 
-        (if (< at--init-min-int am-min)
+        (if (< adaptive-theme--init-min-int am-min)
 
             ;; true if init min <  dawn min is night
 
-            (setq at--is-day nil)
+            (setq adaptive-theme--is-day nil)
 
           ;; Evaluate seconds if is the same minute
 
-          (if (= at--init-sec-int am-sec)
+          (if (= adaptive-theme--init-sec-int am-sec)
 
               ;; evaluate seconds
 
-              (if (< at--init-sec-int am-sec)
+              (if (< adaptive-theme--init-sec-int am-sec)
 
                   ;; true if init sec <  dawn sec is night
 
-                  (setq at--is-day nil))))))
+                  (setq adaptive-theme--is-day nil))))))
 
   ;; Is is before day is morning
 
-  (if (null at--is-day)
-      (setq at--is-morning t))
+  (if (null adaptive-theme--is-day)
+      (setq adaptive-theme--is-morning t))
 
   ;;;;; Compare with pm
 
   ;;;;;; Hour
 
-  (if (> at--init-hour-int pm-hour)
+  (if (> adaptive-theme--init-hour-int pm-hour)
 
       ;; true if init hour >  sunset hour is night
 
-      (setq at--is-day nil)
+      (setq adaptive-theme--is-day nil)
 
     ;; Evaluate minutes if is the same hour
 
-    (if (= at--init-hour-int pm-hour)
+    (if (= adaptive-theme--init-hour-int pm-hour)
 
         ;; evaluate minutes
 
-        (if (> at--init-min-int pm-min)
+        (if (> adaptive-theme--init-min-int pm-min)
 
             ;; true if init min >  sunset min is night
 
-            (setq at--is-day nil)
+            (setq adaptive-theme--is-day nil)
 
           ;; Evaluate seconds if is the same minute
 
-          (if (= at--init-sec-int pm-sec)
+          (if (= adaptive-theme--init-sec-int pm-sec)
 
               ;; evaluate seconds
 
-              (if (> at--init-sec-int pm-sec)
+              (if (> adaptive-theme--init-sec-int pm-sec)
 
                   ;; true if init sec >  sunset sec is night
 
-                  (setq at--is-day nil))))))
+                  (setq adaptive-theme--is-day nil))))))
 
   ;; If is not day and no morning is night
 
-  (if (null at--is-day)
-      (if (null at--is-morning)
-          (setq at--is-night t)))
+  (if (null adaptive-theme--is-day)
+      (if (null adaptive-theme--is-morning)
+          (setq adaptive-theme--is-night t)))
 
   ;;;; Load theme
 
-  (if at--is-day
+  (if adaptive-theme--is-day
 
       ;; Load ligth theme if is day
 
@@ -238,7 +238,7 @@
 
   ;;;;; Calculate time before change day - night
 
-  (if (eval at--is-day)
+  (if (eval adaptive-theme--is-day)
       (if (> pm-min 58)
           (lambda ()
             (if (equal pm-hour 23)
@@ -261,61 +261,61 @@
   ;; Calculate next hour as str
 
   (if (< pm-hour 10)
-      (setq at--pm-hour-str (concat "0" (number-to-string pm-hour)))
-    (setq at--pm-hour-str (number-to-string pm-hour)))
+      (setq adaptive-theme--pm-hour-str (concat "0" (number-to-string pm-hour)))
+    (setq adaptive-theme--pm-hour-str (number-to-string pm-hour)))
 
   ;; Calculate next min asl str
 
   (if (< pm-min 10)
-      (setq at--pm-min-str (concat "0" (number-to-string pm-min)))
-    (setq at--pm-min-str (number-to-string pm-min)))
+      (setq adaptive-theme--pm-min-str (concat "0" (number-to-string pm-min)))
+    (setq adaptive-theme--pm-min-str (number-to-string pm-min)))
 
   ;; Define pm hour
 
-  (setq at--pm-str (concat at--pm-hour-str ":" at--pm-min-str))
+  (setq adaptive-theme--pm-str (concat adaptive-theme--pm-hour-str ":" adaptive-theme--pm-min-str))
 
   ;; Calculate next hour as str
 
   (if (< am-hour 10)
-      (setq at--am-hour-str (concat "0" (number-to-string am-hour)))
-    (setq at--am-hour-str (number-to-string am-hour)))
+      (setq adaptive-theme--am-hour-str (concat "0" (number-to-string am-hour)))
+    (setq adaptive-theme--am-hour-str (number-to-string am-hour)))
 
   ;; Calculate next min asl str
 
   (if (< am-min 10)
-      (setq at--am-min-str (concat "0" (number-to-string am-min)))
-    (setq at--am-min-str (number-to-string am-min)))
+      (setq adaptive-theme--am-min-str (concat "0" (number-to-string am-min)))
+    (setq adaptive-theme--am-min-str (number-to-string am-min)))
 
   ;; Define am hour
 
-  (setq at--am-str (concat at--am-hour-str ":" at--am-min-str))
+  (setq adaptive-theme--am-str (concat adaptive-theme--am-hour-str ":" adaptive-theme--am-min-str))
 
   ;; If is night use timer in seconds
 
-  (if (eval at--is-night)
+  (if (eval adaptive-theme--is-night)
       (lambda ()
-        (setq at--am-str-int (+ (* (- 23 at--init-hour-int) 3600)
-                                (* (- 59 at--init-min-int) 60)
-                                (- 59 at--init-sec-int)))
-        (setq at--am-str (concat (number-to-string at--am-str-int) " sec"))))
+        (setq adaptive-theme--am-str-int (+ (* (- 23 adaptive-theme--init-hour-int) 3600)
+                                            (* (- 59 adaptive-theme--init-min-int) 60)
+                                            (- 59 adaptive-theme--init-sec-int)))
+        (setq adaptive-theme--am-str (concat (number-to-string adaptive-theme--am-str-int) " sec"))))
 
   ;;;;; Program
 
   ;; Cancel timer if exist
 
-  (if (eval at--is-day)
-      (if (boundp 'at--am-timer)
-          (cancel-timer at--am-timer))
-    (if (boundp 'at--pm-timer)
-        (cancel-timer at--pm-timer)))
+  (if (eval adaptive-theme--is-day)
+      (if (boundp 'adaptive-theme--am-timer)
+          (cancel-timer adaptive-theme--am-timer))
+    (if (boundp 'adaptive-theme--pm-timer)
+        (cancel-timer adaptive-theme--pm-timer)))
 
   ;; Reset timer
 
-  (if (eval at--is-day)
-      (setq at--pm-timer (run-at-time at--pm-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval at--am-hour-init) (eval at--pm-hour-init) (eval at--am-min-init) (eval at--pm-min-init) (eval at--am-sec-init) (eval at--pm-sec-init))))
+  (if (eval adaptive-theme--is-day)
+      (setq adaptive-theme--pm-timer (run-at-time adaptive-theme--pm-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval adaptive-theme--am-hour-init) (eval adaptive-theme--pm-hour-init) (eval adaptive-theme--am-min-init) (eval adaptive-theme--pm-min-init) (eval adaptive-theme--am-sec-init) (eval adaptive-theme--pm-sec-init))))
 
-  (if (eval at--is-morning)
-      (setq at--am-timer (run-at-time at--am-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval at--am-hour-init) (eval at--pm-hour-init) (eval at--am-min-init) (eval at--pm-min-init) (eval at--am-sec-init) (eval at--pm-sec-init)))))
+  (if (eval adaptive-theme--is-morning)
+      (setq adaptive-theme--am-timer (run-at-time adaptive-theme--am-str nil #'adaptive-theme 'gruvbox-light-soft 'gruvbox-dark-hard (eval adaptive-theme--am-hour-init) (eval adaptive-theme--pm-hour-init) (eval adaptive-theme--am-min-init) (eval adaptive-theme--pm-min-init) (eval adaptive-theme--am-sec-init) (eval adaptive-theme--pm-sec-init)))))
 
 ;;; Adaptive theme location
 
@@ -340,29 +340,29 @@
 
   ;;;; Setup variables
 
-  ;; atl-- include all adaptive-theme-location variables
+  ;; adaptive-theme-- include all adaptive-theme-location variables
 
-  (defvar atl--internet-external-host)
-  (defvar atl--is-internet-up)
-  (defvar atl--url)
-  (defvar atl--web_to_scrap)
-  (defvar atl--webDataHtml)
-  (defvar atl--webRegexModel)
-  (defvar atl--daylight-regex)
-  (defvar atl--subWebStr)
-  (defvar atl--timeGroupRegex)
-  (defvar atl--timeStr)
-  (defvar atl--amTime)
-  (defvar atl--amSeparator)
-  (defvar atl--amHourStr)
-  (defvar atl--amHourInt)
-  (defvar atl--amMinStr)
-  (defvar atl--amMinInt)
-  (defvar atl--pmSeparator)
-  (defvar atl--pmHourStr)
-  (defvar atl--pmHourInt)
-  (defvar atl--pmMinStr)
-  (defvar atl--pmMinInt)
+  (defvar adaptive-theme--internet-external-host)
+  (defvar adaptive-theme--is-internet-up)
+  (defvar adaptive-theme--url)
+  (defvar adaptive-theme--web_to_scrap)
+  (defvar adaptive-theme--webDataHtml)
+  (defvar adaptive-theme--webRegexModel)
+  (defvar adaptive-theme--daylight-regex)
+  (defvar adaptive-theme--subWebStr)
+  (defvar adaptive-theme--timeGroupRegex)
+  (defvar adaptive-theme--timeStr)
+  (defvar adaptive-theme--amTime)
+  (defvar adaptive-theme--amSeparator)
+  (defvar adaptive-theme--amHourStr)
+  (defvar adaptive-theme--amHourInt)
+  (defvar adaptive-theme--amMinStr)
+  (defvar adaptive-theme--amMinInt)
+  (defvar adaptive-theme--pmSeparator)
+  (defvar adaptive-theme--pmHourStr)
+  (defvar adaptive-theme--pmHourInt)
+  (defvar adaptive-theme--pmMinStr)
+  (defvar adaptive-theme--pmMinInt)
 
 
   ;;;; Detect internet connection
@@ -370,10 +370,10 @@
   ;; Change "www.google.es" with your proxy server if you need it. "my_proxy.es"
 
   (if (null (boundp 'host))
-      (setq atl--internet-external-host "www.google.com"))
-  (setq atl--is-internet-up (call-process "ping" nil nil nil "-c" "1" "-w" "1" atl--internet-external-host))
+      (setq adaptive-theme--internet-external-host "www.google.com"))
+  (setq adaptive-theme--is-internet-up (call-process "ping" nil nil nil "-c" "1" "-w" "1" adaptive-theme--internet-external-host))
 
-  (if (/= atl--is-internet-up 0)
+  (if (/= adaptive-theme--is-internet-up 0)
 
       ;; If internet is not connected
 
@@ -390,7 +390,7 @@
 
   ;; URL base to get am and pm data
 
-  (setq atl--url "https://www.timeanddate.com/sun")
+  (setq adaptive-theme--url "https://www.timeanddate.com/sun")
 
   ;; Set default county
 
@@ -404,73 +404,73 @@
 
   ;; Compose url
 
-  (setq atl--web_to_scrap (concat atl--url "/" country "/" city))
-  (setq atl--webDataHtml (org-web-tools--get-url atl--web_to_scrap))
+  (setq adaptive-theme--web_to_scrap (concat adaptive-theme--url "/" country "/" city))
+  (setq adaptive-theme--webDataHtml (org-web-tools--get-url adaptive-theme--web_to_scrap))
 
   ;;;; Web regex model
 
-  (setq atl--webRegexModel "\\s_Daylight\\s_\\{2\\}div\\s_\\{2\\}p\\s-class\\s_dn\\s_mob\\s_[0-9]\\{1,2\\}:[0-9]\\{1,2\\}\\s-\\s_\\{1,\\}")
+  (setq adaptive-theme--webRegexModel "\\s_Daylight\\s_\\{2\\}div\\s_\\{2\\}p\\s-class\\s_dn\\s_mob\\s_[0-9]\\{1,2\\}:[0-9]\\{1,2\\}\\s-\\s_\\{1,\\}")
 
   ;;;; Extract regex value
 
-  (setq atl--daylight-regex
-        (string-match atl--webRegexModel atl--webDataHtml))
+  (setq adaptive-theme--daylight-regex
+        (string-match adaptive-theme--webRegexModel adaptive-theme--webDataHtml))
 
   ;;;; Extract substring
 
-  (setq atl--subWebStr
-        (substring atl--webDataHtml atl--daylight-regex (+ atl--daylight-regex 100)))
+  (setq adaptive-theme--subWebStr
+        (substring adaptive-theme--webDataHtml adaptive-theme--daylight-regex (+ adaptive-theme--daylight-regex 100)))
 
   ;;;; Create regex group time
 
-  (setq atl--timeGroupRegex "[0-9]\\{1,2\\}:[0-9]\\{1,2\\}")
+  (setq adaptive-theme--timeGroupRegex "[0-9]\\{1,2\\}:[0-9]\\{1,2\\}")
 
   ;;;; Extract time value as string
 
-  (setq atl--timeStr (string-match atl--timeGroupRegex atl--subWebStr))
+  (setq adaptive-theme--timeStr (string-match adaptive-theme--timeGroupRegex adaptive-theme--subWebStr))
 
   ;;;; Extract AM hour
 
-  (setq atl--amTime (substring atl--subWebStr atl--timeStr (+ atl--timeStr 5)))
+  (setq adaptive-theme--amTime (substring adaptive-theme--subWebStr adaptive-theme--timeStr (+ adaptive-theme--timeStr 5)))
 
   ;;;; Get substring pm time
-  (setq atl--timeStr (string-match atl--timeGroupRegex atl--subWebStr (+ atl--timeStr 6)))
+  (setq adaptive-theme--timeStr (string-match adaptive-theme--timeGroupRegex adaptive-theme--subWebStr (+ adaptive-theme--timeStr 6)))
 
   ;;;; Extract PM time
-  (defvar atl--pmTime)
-  (setq atl--pmTime (substring atl--subWebStr atl--timeStr (+ atl--timeStr 5)))
+  (defvar adaptive-theme--pmTime)
+  (setq adaptive-theme--pmTime (substring adaptive-theme--subWebStr adaptive-theme--timeStr (+ adaptive-theme--timeStr 5)))
 
   ;;;; Regenerate time regext to get hour and minutes
-  (defvar atl--timeGroupRegex)
-  (setq atl--timeGroupRegex ":")
+  (defvar adaptive-theme--timeGroupRegex)
+  (setq adaptive-theme--timeGroupRegex ":")
 
   ;;;; Get AM Hour
 
-  (setq atl--amSeparator (string-match atl--timeGroupRegex atl--amTime))
-  (setq atl--amHourStr (substring atl--amTime 0 atl--amSeparator))
-  (setq atl--amHourInt (string-to-number atl--amHourStr))
+  (setq adaptive-theme--amSeparator (string-match adaptive-theme--timeGroupRegex adaptive-theme--amTime))
+  (setq adaptive-theme--amHourStr (substring adaptive-theme--amTime 0 adaptive-theme--amSeparator))
+  (setq adaptive-theme--amHourInt (string-to-number adaptive-theme--amHourStr))
 
   ;;;; Get AM Min
 
-  (setq atl--amSeparator (string-match atl--timeGroupRegex atl--amTime))
-  (setq atl--amMinStr (substring atl--amTime (+ atl--amSeparator 1) (+ atl--amSeparator 3)))
-  (setq atl--amMinInt (string-to-number atl--amMinStr))
+  (setq adaptive-theme--amSeparator (string-match adaptive-theme--timeGroupRegex adaptive-theme--amTime))
+  (setq adaptive-theme--amMinStr (substring adaptive-theme--amTime (+ adaptive-theme--amSeparator 1) (+ adaptive-theme--amSeparator 3)))
+  (setq adaptive-theme--amMinInt (string-to-number adaptive-theme--amMinStr))
 
   ;;;; Get PM Hour
 
-  (setq atl--pmSeparator (string-match atl--timeGroupRegex atl--pmTime))
-  (setq atl--pmHourStr (substring atl--pmTime 0 atl--pmSeparator))
-  (setq atl--pmHourInt (string-to-number atl--pmHourStr))
+  (setq adaptive-theme--pmSeparator (string-match adaptive-theme--timeGroupRegex adaptive-theme--pmTime))
+  (setq adaptive-theme--pmHourStr (substring adaptive-theme--pmTime 0 adaptive-theme--pmSeparator))
+  (setq adaptive-theme--pmHourInt (string-to-number adaptive-theme--pmHourStr))
 
   ;;;; Get PM Min
 
-  (setq atl--pmSeparator (string-match atl--timeGroupRegex atl--pmTime))
-  (setq atl--pmMinStr (substring atl--pmTime (+ atl--pmSeparator 1) (+ atl--pmSeparator 3)))
-  (setq atl--pmMinInt (string-to-number atl--pmMinStr))
+  (setq adaptive-theme--pmSeparator (string-match adaptive-theme--timeGroupRegex adaptive-theme--pmTime))
+  (setq adaptive-theme--pmMinStr (substring adaptive-theme--pmTime (+ adaptive-theme--pmSeparator 1) (+ adaptive-theme--pmSeparator 3)))
+  (setq adaptive-theme--pmMinInt (string-to-number adaptive-theme--pmMinStr))
 
   ;;;; Execute adaptive theme function
 
-  (adaptive-theme light-theme dark-theme atl--amHourInt atl--pmHourInt atl--amMinInt atl--pmMinInt))
+  (adaptive-theme light-theme dark-theme adaptive-theme--amHourInt adaptive-theme--pmHourInt adaptive-theme--amMinInt adaptive-theme--pmMinInt))
 
 ;;; Auto location adaptive theme
 
@@ -491,28 +491,28 @@
 
   ;;;; Setup variables
 
-  ;; ata-- include all adaptive-theme-autolocation variables
+  ;; adaptive-theme-- include all adaptive-theme-autolocation variables
 
-  (defvar ata--internet-external-host)
-  (defvar ata--is-internet-up)
-  (defvar ata--url-location)
-  (defvar ata--webDataHtml)
-  (defvar ata--location-regex)
-  (defvar ata--subLocStr)
-  (defvar ata--init-regex)
-  (defvar ata--end-regex)
-  (defvar ata--myCountryLoc)
-  (defvar ata--myCityLoc)
+  (defvar adaptive-theme--internet-external-host)
+  (defvar adaptive-theme--is-internet-up)
+  (defvar adaptive-theme--url-location)
+  (defvar adaptive-theme--webDataHtml)
+  (defvar adaptive-theme--location-regex)
+  (defvar adaptive-theme--subLocStr)
+  (defvar adaptive-theme--init-regex)
+  (defvar adaptive-theme--end-regex)
+  (defvar adaptive-theme--myCountryLoc)
+  (defvar adaptive-theme--myCityLoc)
 
   ;;;; Detect internet connection
 
   ;; Change "www.google.es" with your proxy server if you need it. "my_proxy.es"
 
   (if (null (boundp 'host))
-      (setq ata--internet-external-host "www.google.com"))
-  (setq ata--is-internet-up (call-process "ping" nil nil nil "-c" "1" "-w" "1" ata--internet-external-host))
+      (setq adaptive-theme--internet-external-host "www.google.com"))
+  (setq adaptive-theme--is-internet-up (call-process "ping" nil nil nil "-c" "1" "-w" "1" adaptive-theme--internet-external-host))
 
-  (if (/= ata--is-internet-up 0)
+  (if (/= adaptive-theme--is-internet-up 0)
 
       ;; If internet is not connected
 
@@ -528,55 +528,55 @@
 
   ;; URL base to get am and pm data
 
-  (setq ata--url-location "https://www.timeanddate.com")
+  (setq adaptive-theme--url-location "https://www.timeanddate.com")
 
   ;; Get main web where display your location
 
-  (setq ata--webDataHtml (org-web-tools--get-url ata--url-location))
+  (setq adaptive-theme--webDataHtml (org-web-tools--get-url adaptive-theme--url-location))
 
   ;;;; Extract regex value
 
-  (setq ata--location-regex
-        (string-match "The World Clock" ata--webDataHtml))
+  (setq adaptive-theme--location-regex
+        (string-match "The World Clock" adaptive-theme--webDataHtml))
 
   ;;;; Extract substring
 
-  (setq ata--subLocStr
-        (substring ata--webDataHtml ata--location-regex (+ ata--location-regex 120)))
+  (setq adaptive-theme--subLocStr
+        (substring adaptive-theme--webDataHtml adaptive-theme--location-regex (+ adaptive-theme--location-regex 120)))
 
   ;;;; Extract regex value
 
-  (setq ata--init-regex
-        (string-match "worldclock/" ata--subLocStr))
-  (setq ata--end-regex
-        (string-match "id=" ata--subLocStr))
+  (setq adaptive-theme--init-regex
+        (string-match "worldclock/" adaptive-theme--subLocStr))
+  (setq adaptive-theme--end-regex
+        (string-match "id=" adaptive-theme--subLocStr))
 
   ;;;; Extract substring
 
-  (setq ata--subLocStr
-        (substring ata--subLocStr (+ ata--init-regex 11) (+ ata--end-regex 3)))
+  (setq adaptive-theme--subLocStr
+        (substring adaptive-theme--subLocStr (+ adaptive-theme--init-regex 11) (+ adaptive-theme--end-regex 3)))
 
   ;;;; Extract country
 
-  (setq ata--end-regex
-        (string-match "/" ata--subLocStr))
-  (setq ata--myCountryLoc
-        (substring ata--subLocStr 0 ata--end-regex))
+  (setq adaptive-theme--end-regex
+        (string-match "/" adaptive-theme--subLocStr))
+  (setq adaptive-theme--myCountryLoc
+        (substring adaptive-theme--subLocStr 0 adaptive-theme--end-regex))
 
   ;;;; Extract city
 
-  (setq ata--init-regex
-        (string-match "/" ata--subLocStr))
+  (setq adaptive-theme--init-regex
+        (string-match "/" adaptive-theme--subLocStr))
 
-  (setq ata--end-regex
-        (string-match "id=" ata--subLocStr))
+  (setq adaptive-theme--end-regex
+        (string-match "id=" adaptive-theme--subLocStr))
 
-  (setq ata--myCityLoc
-        (substring ata--subLocStr (+ ata--init-regex 1) (- ata--end-regex 2)))
+  (setq adaptive-theme--myCityLoc
+        (substring adaptive-theme--subLocStr (+ adaptive-theme--init-regex 1) (- adaptive-theme--end-regex 2)))
 
   ;; Execute location function with data extracted.
 
-  (adaptive-theme-location light-theme dark-theme ata--myCountryLoc ata--myCityLoc))
+  (adaptive-theme-location light-theme dark-theme adaptive-theme--myCountryLoc adaptive-theme--myCityLoc))
 
 ;;;(provide 'adaptive-theme)
 
